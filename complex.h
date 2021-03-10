@@ -15,41 +15,53 @@ struct Complex{
     double real;
     double cmplx;
     int imaginaryUnit;
+    struct Complex* (*_complex_add)(struct Complex* a, struct Complex* b);
 };
 typedef struct Complex complex;
 
-complex add(complex a, complex b){
+complex complex_add(complex a, complex b){
     complex c;
     c.real = a.real + b.real;
     c.cmplx = a.cmplx + b.cmplx;
     return c;
 }
-complex add(complex a, complex b){
+
+void aa(complex* CMP, complex* a, complex* b){
+    CMP->_complex_add = (struct Complex*)malloc(sizeof(struct Complex));
+}
+
+
+
+complex complex_minus(complex a, complex b){
     complex c;
     c.real = a.real - b.real;
     c.cmplx = a.cmplx - b.cmplx;
     return c;
 }
 
-complex multiply(complex a, complex b){
+complex complex_multiply(complex a, complex b){
     complex c;
     c.real = a.real * b.real - a.cmplx * b.cmplx;
-    c.real = a.real * b.cmplx + a.cmplx * b.real;
+    c.cmplx = a.real * b.cmplx + a.cmplx * b.real;
     return c;
 }
 
-complex division(complex a, complex b){
+complex complex_division(complex a, complex b){
     complex c;
     c.real  = (a.real * b.real + a.cmplx * b.cmplx) / (b.real * b.real + b.cmplx * b.cmplx);
     c.cmplx = (a.cmplx * b.real - a.real * b.cmplx) / (b.real * b.real + b.cmplx * b.cmplx);
     return c;
 }
 
-complex multiplyOnAlpha(complex a, double alpha){
+complex complex_multiplyOnAlpha(complex a, double alpha){
     complex c;
     c.real = a.real * alpha;
     c.cmplx = a.cmplx * alpha;
     return c;
+}
+
+void printComplexNumber(complex* a){
+    printf(" complex(%.3f + %.3fi)\n", a->real, a->cmplx);
 }
 
 

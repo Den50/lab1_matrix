@@ -3,4 +3,4 @@ project(lab1 C)
 
 
 set(CMAKE_C_STANDARD 11)
-add_executable(lab1 main.c OperationsMatrix.h matrix.h errorExceptions.h test.h UI.h complex.h)
+add_executable(lab1 main.c OperationsMatrix.h matrix.h errorExceptions.h test.h UI.h complex.h matrix_int.h matrix_double.h matrix_complex.h)
