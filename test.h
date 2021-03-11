@@ -3,13 +3,15 @@
 #include "UI.h"
 #include "matrix.h"
 #include "complex.h"
-#include "algebra.h"
+#include "algebra_int.h"
+#include "algebra_double.h"
+#include "algebra_complex.h"
+#include "algebra_other.h"
 //#include "OperationsMatrix.h"
 
 // test complex module
 void testComplexNumbers(){
     printf("[TEST_COMPLEX_NUMBERS]\n");
-
     // create two complex numbers: a = 5.1 + 2.2i; b = 9.3 + 4.4i
     complex a = {5.1, 2.2, 0};
     complex b = {9.3, 4.4, 0};
@@ -59,14 +61,35 @@ void __testInitMatrix_int(int size, matrix_int* mx){
     mx->MATRIX->values = (void**)values;
 }
 
+void __testInitMatrix_double(int size, matrix_double* mx){
+    double** values;
+    values = (double**)calloc(size, sizeof(double*));
+    for (int i = 0; i < size; ++i) {
+        values[i] = (double*)calloc(size, sizeof(double));
+        for (int j = 0; j < size; ++j) {
+            values[i][j] = (double)(rand() % 10) + (double)(rand() % 100) / 100;
+        }
+    }
+    mx->MATRIX->size = size;
+    mx->MATRIX->values = (void**)values;
+}
+
 
 void testMatrix_int(){
-    printf("[TEST_MATRIX_OPERATIONS]\n");
 
-    matrix ROOTA, ROOTB, ROOT_CONTAINER;
-    struct matrix_int A = {&ROOTA};
-    struct matrix_int B = {&ROOTB};
-    struct matrix_int container = {&ROOT_CONTAINER, &summInt, &minusInt, &multiplyOnAlphaInt, &multiplyInt, &getDeterminantInt, &transposeMatrixInt};
+    printf("[TEST_MATRIX_OPERATIONS_INT]");
+    matrix ROOT_A, ROOT_B, ROOT_CONTAINER_INT;
+    struct matrix_int A = {&ROOT_A};
+    struct matrix_int B = {&ROOT_B};
+    struct matrix_int container_int = {
+            &ROOT_CONTAINER_INT,
+            &summInt,
+            &minusInt,
+            &multiplyOnAlphaInt,
+            &multiplyInt,
+            &getDeterminantInt,
+            &transposeMatrixInt
+    };
 
 
     __testInitMatrix_int(3, &A);
@@ -78,32 +101,33 @@ void testMatrix_int(){
     printf("\nB ");
     printMatrix_int(&B);
 
-    container.summ_int(&A, &B, &container);
+    container_int.summ_int(&A, &B, &container_int);
     printf("\nSumm A + B ");
-    printMatrix_int(&container);
+    printMatrix_int(&container_int);
 
     printf("\nSubstraction A - B ");
-    container.minus_int(&A, &B, &container);
-    printMatrix_int(&container);
+    container_int.minus_int(&A, &B, &container_int);
+    printMatrix_int(&container_int);
 
 
     double alpha = 2.0;
     printf("\nMultiplied A on %.2f ", alpha);
-    container.multiplyOnAlpha_int(&A, alpha, &container);
-    printMatrix_int(&container);
+    container_int.multiplyOnAlpha_int(&A, alpha, &container_int);
+    printMatrix_int(&container_int);
 
     printf("\nMultiply A * B ");
-    container.multiply_int(&A, &B, &container);
-    printMatrix_int(&container);
+    container_int.multiply_int(&A, &B, &container_int);
+    printMatrix_int(&container_int);
 
 
-//    printf("\nGet determinant A ");
-//    int det = container.getDeterminant_int(&A);
-//    printf("Det(A) = %d", det);
+    printf("\nGet determinant A ");
+    int det = container_int.getDeterminant_int(&A);
+    printf("\nDet(A) = %d\n", det);
+
 
     printf("\nTranspose A ");
-    container.transpose_int(&A, &container);
-    printMatrix_int(&container);
+    container_int.transpose_int(&A, &container_int);
+    printMatrix_int(&container_int);
 
 
 //    need delete memory matrices A, B and container
@@ -111,13 +135,73 @@ void testMatrix_int(){
 //    free(&B);
 //    free(&container);
 }
+void testMatrix_double(){
+    printf("\n[TEST_MATRIX_OPERATIONS_DOUBLE]");
 
+
+    matrix ROOT_C, ROOT_D, ROOT_CONTAINER;
+    struct matrix_double C = {&ROOT_C};
+    struct matrix_double D = {&ROOT_D};
+    struct matrix_double container_double = {
+            &ROOT_CONTAINER,
+            &summDouble,
+            &minusDouble,
+            &multiplyOnAlphaDouble,
+            &multiplyDouble,
+            &getDeterminantDouble,
+            &transposeMatrixDouble,
+            &reverseMatrixDouble
+    };
+
+
+    __testInitMatrix_double(3, &C);
+    __testInitMatrix_double(3, &D);
+
+    printf("\nC ");
+    printMatrix_double(&C);
+    printf("\nB ");
+    printMatrix_double(&D);
+
+    container_double.summ_double(&C, &D, &container_double);
+    printf("\nSumm C + D ");
+    printMatrix_double(&container_double);
+
+    printf("\nSubstraction C - D ");
+    container_double.minus_double(&C, &D, &container_double);
+    printMatrix_double(&container_double);
+
+    double alpha = 3.1;
+    printf("\nMultiplied C on %.2f ", alpha);
+    container_double.multiplyOnAlpha_double(&C, alpha, &container_double);
+    printMatrix_double(&container_double);
+
+    printf("\nMultiply C * D ");
+    container_double.multiply_double(&C, &D, &container_double);
+    printMatrix_double(&container_double);
+
+    printf("\nGet determinant C ");
+    double* det = container_double.getDeterminant_double(&C);
+    printf("\nDet(C) = %.2f\n", det);
+
+    printf("\nTranspose C ");
+    container_double.transpose_double(&C, &container_double);
+    printMatrix_double(&container_double);
+
+    printf("\nReversed C ");
+    container_double.reverseMatrix_double(&C, &container_double);
+    printMatrix_double(&container_double);
+}
 
 void tests(){
     printf("[TEST]\n\n");
 
+
 //    testComplexNumbers();
-    testMatrix_int();
+
+    printf("[TEST_MATRIX_OPERATIONS]\n\n");
+//    testMatrix_int();
+//    testMatrix_double();
+
 }
 
 #endif //LAB1_TEST_H

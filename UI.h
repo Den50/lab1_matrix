@@ -2,6 +2,11 @@
 #define LAB1_UI_H
 #include "matrix.h"
 
+// -----------------------------------------------------------------------------------------------------------------
+// ------------------------------------------/ INPUTS FOR DIFF TYPES MATRICES /-------------------------------------
+// -----------------------------------------------------------------------------------------------------------------
+
+
 matrix_int initializationMartix_int(matrix_int* Matrix){
     int** values;
     int size;
@@ -26,6 +31,12 @@ matrix_int initializationMartix_int(matrix_int* Matrix){
     return *Matrix;
 }
 
+
+// -----------------------------------------------------------------------------------------------------------------
+// ------------------------------------------/ OUTPUTS FOR DIFF TYPES MATRICES /------------------------------------
+// -----------------------------------------------------------------------------------------------------------------
+
+
 void printMatrix_int(matrix_int* Matrix){
     int** values = (int**)Matrix->MATRIX->values;
 
@@ -37,6 +48,20 @@ void printMatrix_int(matrix_int* Matrix){
         printf("\n");
     }
 }
+
+void printMatrix_double(matrix_double* Matrix){
+    double** values = (double**)Matrix->MATRIX->values;
+
+    printf("matrix:  \n");
+    for (int i = 0; i < Matrix->MATRIX->size; ++i) {
+        for(int j = 0; j < Matrix->MATRIX->size; ++j){
+            printf("%.2f ", values[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+
 
 
 // -----------------------------------------------------------------------------------------------------------------

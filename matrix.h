@@ -8,6 +8,7 @@ typedef struct matrix{
     int isNull;
     int isZero;
     int isOne;
+    void* (*matrix_cpy)(struct matrix* base, struct matrix* to);
 } matrix;
 
 
@@ -32,21 +33,21 @@ typedef struct matrix_int{
     void* (*multiply_int)(struct matrix_int* this, struct matrix_int* other, struct matrix_int* container);
     int*  (*getDeterminant_int)(struct matrix_int* this);
     void* (*transpose_int)(struct matrix_int* A, struct matrix_int* container);
-    void* (*reverseMatrix_int)(struct matrix_int* A, struct matrix_int* container);
+//    void* (*reverseMatrix_int)(struct matrix_int* A, struct matrix_int* container);
 } matrix_int;
 
-//typedef struct{
-//    matrix* MATRIX;
-//    initMatrix initMatrix_double;
-//    summ summ_double;
-//    minus minus_double;
-//    multiply multiply_double;
-//    multiplyOnAlpha multiplyOnAlpha_double;
-//    getDeterminant getDeterminant_double;
-//    transpose transpose_double;
-//    reverseMatrix reverseMatrix_double;
-//} matrix_double;
-//
+typedef struct matrix_double{
+    matrix* MATRIX;
+    void* (*summ_double)(struct matrix_double* this, struct matrix_double* other, struct matrix_double* container);
+    void* (*minus_double)(struct matrix_double* this, struct matrix_double* other, struct matrix_double* container);
+    void* (*multiplyOnAlpha_double)(struct matrix_double* this, double alpha, struct matrix_double* container);
+    void* (*multiply_double)(struct matrix_double* this, struct matrix_double* other, struct matrix_double* container);
+    double* (*getDeterminant_double)(struct matrix_double* this);
+    void* (*transpose_double)(struct matrix_double* A, struct matrix_double* container);
+    void* (*reverseMatrix_double)(struct matrix_double* A, struct matrix_double* container);
+} matrix_double;
+
+
 //typedef struct{
 //    matrix* MATRIX;
 //    initMatrix initMatrix_complex;
@@ -63,8 +64,27 @@ typedef struct matrix_int{
 //    multiplyOnAlpha multiplyOnAlpha_other;
 //} matrix_other;
 
+int pow(int base, int power){
+    int res = 1;
+    for (int i = 0; i < power; ++i) {
+        res *= base;
+    }
+    return res;
+}
 
+void swap(int* a, int* b){
+    int t = *a;
+    *a = *b;
+    *b = t;
+}
 
+void matrixCpy(struct matrix* base, struct matrix* to){
+
+}
+
+void matrixDestroy(struct matrix* this){
+
+}
 
 
 #endif //LAB1_MATRIX_H
