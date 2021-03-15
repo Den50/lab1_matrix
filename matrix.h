@@ -1,7 +1,6 @@
 #ifndef LAB1_MATRIX_H
 #define LAB1_MATRIX_H
-
-
+#include "string.h"
 typedef struct matrix{
     int size;
     void** values;
@@ -48,21 +47,19 @@ typedef struct matrix_double{
 } matrix_double;
 
 
-//typedef struct{
-//    matrix* MATRIX;
-//    initMatrix initMatrix_complex;
-//    summ summ_complex;
-//    minus minus_complex;
-//    multiply multiply_complex;
-//    multiplyOnAlpha multiplyOnAlpha_complex;
-//} matrix_complex;
-//
-//typedef struct{
-//    matrix* MATRIX;
-//    initMatrix initMatrix_other;
-//    summ summ_other;
-//    multiplyOnAlpha multiplyOnAlpha_other;
-//} matrix_other;
+typedef struct matrix_complex{
+    matrix* MATRIX;
+    void* (*summ_complex)(struct matrix_complex* this, struct matrix_complex* other, struct matrix_complex* container);
+    void* (*minus_complex)(struct matrix_complex* this, struct matrix_complex* other, struct matrix_complex* container);
+    void* (*multiplyOnAlpha_complex)(struct matrix_complex* this, double alpha, struct matrix_complex* container);
+    void* (*multiply_complex)(struct matrix_complex* this, struct matrix_complex* other, struct matrix_complex* container);
+} matrix_complex;
+
+typedef struct matrix_other{
+    matrix* MATRIX;
+    void* (*summ_other)(struct matrix_other* this, struct matrix_other* other, struct matrix_other* container);
+    void* (*multiplyOnAlpha_other)(struct matrix_other* this, int alpha, struct matrix_other* container);
+} matrix_other;
 
 int pow(int base, int power){
     int res = 1;

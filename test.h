@@ -23,7 +23,7 @@ void testComplexNumbers(){
     printComplexNumber(&b); // b -> complex(9.300 + 4.400i)
 
     // add complex numbers:
-    complex _summ = complex_add(a, b);
+    complex _summ = complex_summ(a, b);
     printf("summ ->");
     printComplexNumber(&_summ); // summ -> complex(14.400 + 6.600i)
 
@@ -74,6 +74,57 @@ void __testInitMatrix_double(int size, matrix_double* mx){
     mx->MATRIX->values = (void**)values;
 }
 
+void __testInitMatrix_complex(int size, matrix_complex* mx){
+    complex** values;
+    values = (complex**)calloc(size, sizeof(complex*));
+    for (int i = 0; i < size; ++i) {
+        values[i] = (complex*)calloc(size, sizeof(complex));
+        for (int j = 0; j < size; ++j) {
+            double randDouble1 = (double)((rand() % 10) +  (double)(rand() % 100) / 100);
+            double randDouble2 = (double)((rand() % 10) +  (double)(rand() % 100) / 100);
+            values[i][j] = createComplex(randDouble1, randDouble2, &values[i][j]);
+        }
+    }
+    mx->MATRIX->size = size;
+    mx->MATRIX->values = (void**)values;
+}
+
+
+static char *rand_string(char *str, size_t size)
+{
+    const char charset[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQSTUVWXYZ";
+    if (size) {
+        --size;
+        for (size_t n = 0; n < size; n++) {
+            int key = rand() % (int) (sizeof charset - 1);
+            str[n] = charset[key];
+        }
+        str[size] = '\0';
+    }
+    return str;
+}
+char* rand_string_alloc(size_t size)
+{
+    char *s = malloc(size + 1);
+    if (s) {
+        rand_string(s, size);
+    }
+    return s;
+}
+void __testInitMatrix_other(int size, int length, matrix_other* mx){
+    char*** values = (char***)calloc(size, sizeof(char*));
+    for (int i = 0; i < size; ++i) {
+        values[i] = (char**)calloc(size, sizeof(char*));
+        for (int j = 0; j < size; ++j) {
+            values[i][j] = (char*)calloc(length, sizeof(char));
+            // put random count letters
+            values[i][j] = rand_string_alloc(length);
+            printf("\n");
+        }
+    }
+    mx->MATRIX->size = size;
+    mx->MATRIX->values = (void**)values;
+}
 
 void testMatrix_int(){
 
@@ -191,7 +242,85 @@ void testMatrix_double(){
     container_double.reverseMatrix_double(&C, &container_double);
     printMatrix_double(&container_double);
 }
+void testMatrix_complex(){
+    printf("\n[TEST_MATRIX_OPERATIONS_COMPLEX]");
 
+
+    int size = 3;
+    matrix ROOT_A, ROOT_B, ROOT_CONTAINER;
+    struct matrix_complex A = {&ROOT_A};
+    struct matrix_complex B = {&ROOT_B};
+    struct matrix_complex container_complex = {
+            &ROOT_CONTAINER,
+            &summComplex,
+            &minusComplex,
+            &multiplyOnAlphaComplex,
+            &multiplyComplex
+    };
+
+    container_complex.MATRIX->size = size;
+    __testInitMatrix_complex(size, &A);
+    __testInitMatrix_complex(size, &B);
+
+    printf("\nA ");
+    printMatrix_complex(&A);
+    printf("\nB ");
+    printMatrix_complex(&B);
+
+    printf("\nMatrix A + B ");
+    container_complex.summ_complex(&A, &B, &container_complex);
+    printMatrix_complex(&container_complex);
+
+    printf("\nMatrix A - B ");
+    container_complex.minus_complex(&A, &B, &container_complex);
+    printMatrix_complex(&container_complex);
+
+    double alpha = 3.1;
+    printf("\nMultiply on alpha = %.2f ", alpha);
+    container_complex.multiplyOnAlpha_complex(&A, alpha, &container_complex);
+    printMatrix_complex(&container_complex);
+
+    printf("\nMatrix A * B ");
+    container_complex.multiply_complex(&A, &B, &container_complex);
+    printMatrix_complex(&container_complex);
+
+}
+void testMatrix_other(){
+    printf("\n[TEST_MATRIX_OPERATIONS_OTHERTYPES]");
+
+    int size = 3;
+    int length = 10;
+    matrix ROOT_A, ROOT_B, ROOT_CONTAINER;
+    struct matrix_other A = {&ROOT_A};
+    struct matrix_other B = {&ROOT_B};
+    struct matrix_other container_other = {
+            &ROOT_CONTAINER,
+            &summOther,
+            &multiplyOnAlphaOther
+    };
+
+    container_other.MATRIX->size = size;
+    __testInitMatrix_other(size, length, &A);
+    __testInitMatrix_other(size, length, &B);
+
+    printf("\nA ");
+    printMatrix_other(&A);
+    printf("\nB ");
+    printMatrix_other(&B);
+
+    printf("\nMatrix A + B (concat)\n");
+    container_other.summ_other(&A, &B, &container_other);
+    printMatrix_other(&container_other);
+
+    printMatrix_other(&A);
+    int alpha = 2;
+    printf("\nMatrix A * alpha = %d\n", alpha);
+    container_other.multiplyOnAlpha_other(&A, alpha, &container_other);
+    printMatrix_other(&container_other);
+
+
+
+}
 void tests(){
     printf("[TEST]\n\n");
 
@@ -201,6 +330,8 @@ void tests(){
     printf("[TEST_MATRIX_OPERATIONS]\n\n");
 //    testMatrix_int();
 //    testMatrix_double();
+//    testMatrix_complex();
+    testMatrix_other();
 
 }
 

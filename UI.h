@@ -1,6 +1,7 @@
 #ifndef LAB1_UI_H
 #define LAB1_UI_H
 #include "matrix.h"
+#include "complex.h"
 
 // -----------------------------------------------------------------------------------------------------------------
 // ------------------------------------------/ INPUTS FOR DIFF TYPES MATRICES /-------------------------------------
@@ -61,7 +62,29 @@ void printMatrix_double(matrix_double* Matrix){
     }
 }
 
+void printMatrix_complex(matrix_complex* Matrix){
+    complex** values = (complex**)Matrix->MATRIX->values;
 
+    printf("matrix:  \n");
+    for (int i = 0; i < Matrix->MATRIX->size; ++i) {
+        for(int j = 0; j < Matrix->MATRIX->size; ++j){
+            printf("cmplx(%.1f + %.1fi) ", values[i][j].real, values[i][j].im);
+        }
+        printf("\n");
+    }
+}
+
+void printMatrix_other(matrix_other* Matrix){
+    char*** values = (char***)Matrix->MATRIX->values;
+
+    printf("matrix:  \n");
+    for (int i = 0; i < Matrix->MATRIX->size; ++i) {
+        for(int j = 0; j < Matrix->MATRIX->size; ++j){
+            printf("\"%s\" ", values[i][j]);
+        }
+        printf("\n");
+    }
+}
 
 
 // -----------------------------------------------------------------------------------------------------------------

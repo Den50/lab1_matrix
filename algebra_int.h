@@ -76,7 +76,7 @@ void multiplyInt(matrix_int* A, matrix_int* B, matrix_int* Result){
     int** valuesB       = (int**)B->MATRIX->values;
     int** valuesResult  = (int**)Result->MATRIX->values;
     // Поскольку матрицы квадратные, имеем право проверять их на равенство size
-    if(A->MATRIX->size == A->MATRIX->size){
+    if(A->MATRIX->size == B->MATRIX->size){
         int size = A->MATRIX->size;
         Result->MATRIX->values = (int**)calloc(size, sizeof(int*));
         for (int i = 0; i < size; ++i){

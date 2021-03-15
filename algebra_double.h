@@ -73,7 +73,7 @@ void multiplyDouble(matrix_double* A, matrix_double* B, matrix_double* Result){
     double** valuesResult;
     // Поскольку матрицы квадратные, имеем право проверять их на равенство size
     int size = A->MATRIX->size;
-    if(A->MATRIX->size == A->MATRIX->size){
+    if(A->MATRIX->size == B->MATRIX->size){
         valuesResult = (double**)calloc(size, sizeof(double*));
         for (int i = 0; i < size; ++i){
             valuesResult[i] = (double*)calloc(size, sizeof(double));
