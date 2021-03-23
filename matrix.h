@@ -7,7 +7,6 @@ typedef struct matrix{
     int isNull;
     int isZero;
     int isOne;
-    void* (*matrix_cpy)(struct matrix* base, struct matrix* to);
 } matrix;
 
 
@@ -62,20 +61,8 @@ typedef struct matrix_other{
 } matrix_other;
 
 
+void swap();
 
-void swap(int* a, int* b){
-    int t = *a;
-    *a = *b;
-    *b = t;
-}
-
-void matrixCpy(struct matrix* base, struct matrix* to){
-
-}
-
-void matrixDestroy(struct matrix* this){
-
-}
 
 
 #endif //LAB1_MATRIX_H

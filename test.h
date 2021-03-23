@@ -3,10 +3,7 @@
 #include "UI.h"
 #include "matrix.h"
 #include "complex.h"
-#include "algebra_int.h"
-#include "algebra_double.h"
-#include "algebra_complex.h"
-#include "algebra_other.h"
+#include "algebra.h"
 //#include "OperationsMatrix.h"
 
 // test complex module
@@ -60,7 +57,6 @@ void __testInitMatrix_int(int size, matrix_int* mx){
     mx->MATRIX->size = size;
     mx->MATRIX->values = (void**)values;
 }
-
 void __testInitMatrix_double(int size, matrix_double* mx){
     double** values;
     values = (double**)calloc(size, sizeof(double*));
@@ -73,7 +69,6 @@ void __testInitMatrix_double(int size, matrix_double* mx){
     mx->MATRIX->size = size;
     mx->MATRIX->values = (void**)values;
 }
-
 void __testInitMatrix_complex(int size, matrix_complex* mx){
     complex** values;
     values = (complex**)calloc(size, sizeof(complex*));
@@ -88,7 +83,6 @@ void __testInitMatrix_complex(int size, matrix_complex* mx){
     mx->MATRIX->size = size;
     mx->MATRIX->values = (void**)values;
 }
-
 
 static char *rand_string(char *str, size_t size)
 {
@@ -119,12 +113,12 @@ void __testInitMatrix_other(int size, int length, matrix_other* mx){
             values[i][j] = (char*)calloc(length, sizeof(char));
             // put random count letters
             values[i][j] = rand_string_alloc(length);
-            printf("\n");
         }
     }
     mx->MATRIX->size = size;
     mx->MATRIX->values = (void**)values;
 }
+
 
 void testMatrix_int(){
 
@@ -161,8 +155,8 @@ void testMatrix_int(){
     printMatrix_int(&container_int);
 
 
-    int alpha = 2;
-    printf("\nMultiplied A on %d ", alpha);
+    double alpha = 2;
+    printf("\nMultiplied A on %.2lf ", alpha);
     container_int.multiplyOnAlpha_int(&A, alpha, &container_int);
     printMatrix_int(&container_int);
 
@@ -321,6 +315,7 @@ void testMatrix_other(){
 
 
 }
+
 void tests(){
     printf("[TEST]\n\n");
 
