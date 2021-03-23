@@ -1,3 +1,5 @@
+#ifndef LAB1_ALGEBRA_DOUBLE_H
+#define LAB1_ALGEBRA_DOUBLE_H
 #include "matrix.h"
 
 // -----------------------------------------------------------------------------------------------------------------
@@ -173,3 +175,5 @@ void reverseMatrixDouble(matrix_double* MatrixA, matrix_double* other){
         other->MATRIX->isNull = 1;
     }
 }
+
+#endif //LAB1_ALGEBRA_DOUBLE_H

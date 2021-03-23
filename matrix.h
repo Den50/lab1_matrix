@@ -2,8 +2,8 @@
 #define LAB1_MATRIX_H
 #include "string.h"
 typedef struct matrix{
-    int size;
     void** values;
+    int size;
     int isNull;
     int isZero;
     int isOne;
@@ -61,13 +61,7 @@ typedef struct matrix_other{
     void* (*multiplyOnAlpha_other)(struct matrix_other* this, int alpha, struct matrix_other* container);
 } matrix_other;
 
-int pow(int base, int power){
-    int res = 1;
-    for (int i = 0; i < power; ++i) {
-        res *= base;
-    }
-    return res;
-}
+
 
 void swap(int* a, int* b){
     int t = *a;

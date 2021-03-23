@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "complex.h"
 #include "matrix.h"
-#include "test.h"
+#include "algebra.h"
 #include "UI.h"
+#include "test.h"
 
 
 
@@ -12,7 +14,14 @@ int main(void) {
     // -----------------------------------------------------/ TEST /----------------------------------------------------
     // -----------------------------------------------------------------------------------------------------------------
 
-    tests();
+     tests();
+    int type, operation;
+    matrix ROOT_A, ROOT_B, ROOT_CONTAINER;
+    double alpha;
+    chooseType(&type);
+    chooseOperation(type, &operation);
+//    printf("%d, %d", type, operation);
+    conveyor(type, operation, &ROOT_A, &ROOT_B, &ROOT_CONTAINER);
 
     // -----------------------------------------------------------------------------------------------------------------
     // ------------------------------------------------/ START PROGRAM /------------------------------------------------

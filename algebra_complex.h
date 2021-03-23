@@ -1,4 +1,8 @@
+#ifndef LAB1_ALGEBRA_COMPLEX_H
+#define LAB1_ALGEBRA_COMPLEX_H
+
 #include "matrix.h"
+#include "complex.h"
 // -----------------------------------------------------------------------------------------------------------------
 // --------------------------------------------------/ Matrix Operations /------------------------------------------
 // -----------------------------------------------------------------------------------------------------------------
@@ -77,3 +81,4 @@ void multiplyComplex(matrix_complex* A, matrix_complex* B, matrix_complex* Resul
         Result->MATRIX->isNull = 1;
     }
 }
+#endif //LAB1_ALGEBRA_COMPLEX_H

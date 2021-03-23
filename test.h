@@ -161,8 +161,8 @@ void testMatrix_int(){
     printMatrix_int(&container_int);
 
 
-    double alpha = 2.0;
-    printf("\nMultiplied A on %.2f ", alpha);
+    int alpha = 2;
+    printf("\nMultiplied A on %d ", alpha);
     container_int.multiplyOnAlpha_int(&A, alpha, &container_int);
     printMatrix_int(&container_int);
 
@@ -328,9 +328,9 @@ void tests(){
 //    testComplexNumbers();
 
     printf("[TEST_MATRIX_OPERATIONS]\n\n");
-//    testMatrix_int();
-//    testMatrix_double();
-//    testMatrix_complex();
+    testMatrix_int();
+    testMatrix_double();
+    testMatrix_complex();
     testMatrix_other();
 
 }

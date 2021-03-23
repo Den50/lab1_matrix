@@ -1,3 +1,5 @@
+#ifndef LAB1_ALGEBRA_INT_H
+#define LAB1_ALGEBRA_INT_H
 #include "matrix.h"
 
 // -----------------------------------------------------------------------------------------------------------------
@@ -33,57 +35,48 @@ void summInt(matrix_int* A, matrix_int* B, matrix_int* summed){
 //    free(B_values);
 }
 
-void minusInt(matrix_int* A, matrix_int* B, matrix_int* summed){
-    int **A_values, **B_values, **summed_values;
-    A_values = (int**)A->MATRIX->values;
-    B_values = (int**)B->MATRIX->values;
+void minusInt(matrix_int* A, matrix_int* B, matrix_int* sub){
+    int **summed_values;
     int size = A->MATRIX->size;
     if(A->MATRIX->size == B->MATRIX->size){
         summed_values = (int**)calloc(size, sizeof(int*));
         for (int i = 0; i < size; ++i) {
             summed_values[i] = (int*)calloc(size, sizeof(int));
             for (int j = 0; j < A->MATRIX->size; ++j) {
-                summed_values[i][j] = A_values[i][j] - B_values[i][j];
+                summed_values[i][j] = ((int**)A->MATRIX->values)[i][j] - ((int**)B->MATRIX->values)[i][j];
             }
         }
     }else{
-        summed->MATRIX->isNull = 1;
+        sub->MATRIX->isNull = 1;
     }
-    summed->MATRIX->values = (void**)summed_values;
-    summed->MATRIX->size = size;
-
-//    free(A_values);
-//    free(B_values);
+    sub->MATRIX->size = size;
+    sub->MATRIX->values = (void**)summed_values;
 }
 
 
-void multiplyOnAlphaInt(matrix_int* Matrix, double alpha, matrix_int* multiplied){
+void multiplyOnAlphaInt(matrix_int* Matrix, int alpha, matrix_int* multiplied){
     // for the reason void -> double multiply double
-    double** valuesOrigin = (double**)    Matrix->MATRIX->values;
-    double** valuesMult   = (double**)multiplied->MATRIX->values;
+    int** valuesOrigin = (int**)    Matrix->MATRIX->values;
+    int** valuesMult   = (int**)multiplied->MATRIX->values;
     for (int i = 0; i < Matrix->MATRIX->size; ++i)
         for (int j = 0; j < Matrix->MATRIX->size; ++j)
             valuesMult[i][j] = valuesOrigin[i][j] * alpha;
 
     multiplied->MATRIX->values = (void**)valuesMult;
-
-//    free(valuesMult);
-//    free(valuesOrigin);
+    multiplied->MATRIX->size = Matrix->MATRIX->size;
 }
 
 void multiplyInt(matrix_int* A, matrix_int* B, matrix_int* Result){
-    int** valuesA       = (int**)A->MATRIX->values;
-    int** valuesB       = (int**)B->MATRIX->values;
-    int** valuesResult  = (int**)Result->MATRIX->values;
+    int** valuesResult;
     // Поскольку матрицы квадратные, имеем право проверять их на равенство size
     if(A->MATRIX->size == B->MATRIX->size){
         int size = A->MATRIX->size;
-        Result->MATRIX->values = (int**)calloc(size, sizeof(int*));
+        valuesResult = (int**)calloc(size, sizeof(int*));
         for (int i = 0; i < size; ++i){
-            Result->MATRIX->values[i] = (int*)calloc(size, sizeof(int));
+            valuesResult[i] = (int*)calloc(size, sizeof(int));
             for (int j = 0; j < size; ++j){
                 for (int k = 0; k < size; ++k)
-                    valuesResult[i][j] += valuesA[i][k] * valuesB[k][j];
+                    valuesResult[i][j] += ((int**)A->MATRIX->values)[i][k] * ((int**)B->MATRIX->values)[k][j];
             }
         }
         Result->MATRIX->size = size;
@@ -176,3 +169,4 @@ void reverseMatrixInt(matrix_int* MatrixA, matrix_int* other){
         other->MATRIX->isNull = 1;
     }
 }
+#endif //LAB1_ALGEBRA_INT_H
